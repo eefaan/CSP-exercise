@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const int my_INT_MAX = 0x7F;
+const int my_INT_MAX = 0x7F7F7F7F;
 const int N = 1000;
 int dp[N][N];
 int add[N+1];
