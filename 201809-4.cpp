@@ -19,9 +19,9 @@ struct node{
 
 void add(int u,int v,int w)
 {
+    g[tot].nt=head[u];
     g[tot].to=v;
     g[tot].w=w;
-    g[tot].nt=head[u];
     head[u]=tot++;
 }
  
