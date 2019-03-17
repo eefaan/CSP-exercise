@@ -1,0 +1,341 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+	ifstream infd;
+	infd.open("1-input", ios::in);
+
+	int n;
+	infd>>n;
+
+	vector<int> myvec;
+	int mymax;
+	int mymin;
+	double mymiddle;
+
+	int temp_first;
+	int temp_end;
+	for(int i=0; i<n; i++){
+		int temp;
+		infd>>temp;
+		if(i==0) temp_first = temp;
+		else if(i==n-1) temp_end = temp;
+		myvec.push_back(temp);
+	}
+
+	// max and min
+	if(temp_first > temp_end){
+		mymax = temp_first;
+		mymin = temp_end;
+	}
+	else{
+		mymax = temp_end;
+		mymin = temp_first;
+	}
+
+	//middle
+	if(n%2 == 1){
+		mymiddle = myvec[(myvec.size()/2)];
+	}
+	else{
+		// cout<< myvec[(myvec.size()/2)];
+		// cout<< myvec[(myvec.size()/2)-1];
+		mymiddle = double(myvec[(myvec.size()/2)] + myvec[(myvec.size()/2 - 1)]) / 2;
+	}
+
+
+	cout<<mymax<<' '<<mymiddle<<' '<<mymin;
+	// for(int i=0; i<n; i++){
+	// 	cout<<myvec[i]<<endl;
+	// }
+	return 0;
+}
+
+
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+	ifstream infd;
+	infd.open("2-input", ios::in);
+
+	int n;
+	infd>>n;
+
+	int num[7];
+	char op[7];
+	for(int i=0; i<n; i++){
+		for(int j=0; j<7; j++){
+			if(j%2==0){
+				infd>>num[j];
+			}
+			else{
+				infd>>op[j];
+			}
+		}
+		// for(int j=0; j<7; j++){
+		// 	if(j%2==0){
+		// 		cout<<num[j];
+		// 	}
+		// 	else{
+		// 		cout<<op[j];
+		// 	}
+		// }
+		// cout<<endl;
+
+		int num_max = 5;
+		int temp_i;
+		for(temp_i=0; temp_i<num_max; temp_i+=2){//operate * and /
+			int int_1=num[temp_i];
+			int int_2=num[temp_i+2];
+			char op_1=op[temp_i+1];
+			int result;
+			if(op_1 == '/'){//do operate
+				result = int_1/int_2;
+				num[temp_i] = result;
+				for(int move=temp_i+1; move<num_max; move++){
+					if(move%2==0){
+						num[move]=num[move+2];
+					}
+					else{
+						op[move]=op[move+2];
+					}
+				}
+				temp_i-=2;
+				num_max-=2;
+			}
+			else if(op_1 == 'x'){
+				result = int_1*int_2;
+				num[temp_i] = result;
+				for(int move=temp_i+1; move<num_max; move++){
+					if(move%2==0){
+						num[move]=num[move+2];
+					}
+					else{
+						op[move]=op[move+2];
+					}
+				}
+				temp_i-=2;
+				num_max-=2;
+			}
+		}
+		for(temp_i=0; temp_i<num_max; temp_i+=2){//operate + and -
+			int int_1=num[temp_i];
+			int int_2=num[temp_i+2];
+			char op_1=op[temp_i+1];
+			int result;
+			if(op_1 == '+'){//do operate
+				result = int_1+int_2;
+				num[temp_i] = result;
+				for(int move=temp_i+1; move<num_max; move++){
+					if(move%2==0){
+						num[move]=num[move+2];
+					}
+					else{
+						op[move]=op[move+2];
+					}
+				}
+				temp_i-=2;
+				num_max-=2;
+			}
+			else if(op_1 == '-'){//do operate
+				result = int_1-int_2;
+				num[temp_i] = result;
+				for(int move=temp_i+1; move<num_max; move++){
+					if(move%2==0){
+						num[move]=num[move+2];
+					}
+					else{
+						op[move]=op[move+2];
+					}
+				}
+				temp_i-=2;
+				num_max-=2;
+			}
+		}
+		if(num[0]==24){
+			cout<<"Yes"<<endl;
+		}
+		else{
+			cout<<"No"<<endl;
+		}
+
+	}
+
+	return 0;
+}
+
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class disk{
+public:
+	disk(int num, string cont);
+	~disk(){}
+	int pot;
+	vector<string> content;
+};
+disk::disk(int num,string cont):pot(num)
+{
+	string temp;
+	while(cont!=""){
+		temp=cont.substr(0,8);
+		cont.erase(0,8);
+		content.push_back(temp);
+	}
+}
+
+long mystol(string origin){
+	long result=0;
+	for(int i=0;i<origin.size();i++){
+		result*=16;
+		if(origin[i]<='9' && origin[i]>='0'){
+			result+=origin[i]-'0';
+		}
+		else if(origin[i]<='F' && origin[i]>='A'){
+			result+=(origin[i]-'A'+10);
+		}
+	}
+	return result;
+}
+
+char a_to_string(unsigned long temp){
+	char result;
+	if(temp<=9 && temp>=0){
+		result = temp+'0';
+	}
+	else{
+		result = temp-10+'A';
+	}
+
+	// cout<<temp<<' '<<result<<endl;
+	return result;
+}
+
+string my_to_string(unsigned long origin){
+	string result("");
+	// while(1){
+	// 	result.insert(0,to_string(origin/16));
+	// }
+	// cout<<origin<<endl;
+	unsigned long temp;
+	unsigned long dex = origin;
+	for (int i=0; i<8; i++){
+    	temp = dex % 16;
+    	dex = dex / 16;
+    	// string temp_str();
+		result = a_to_string(temp) + result;    	
+		// cout<<result<<endl;
+    }
+	return result;
+}
+
+string myXOR(string origin_hex, string merge_hex)
+{
+
+	string result(origin_hex);
+	unsigned long temp_int = mystol(origin_hex);
+	// cout<<temp_int<<endl;
+	unsigned long temp_int_2 = mystol(merge_hex);
+	temp_int = temp_int ^ temp_int_2;
+	// cout<<temp_int<<endl;
+	result = my_to_string(temp_int);
+	// cout<<result<<endl;
+	return result;
+}
+
+int main(void)
+{
+	ifstream infd;
+	infd.open("3-input", ios::in);
+
+	int disk_num;
+	int width;
+	int a_disk_num;
+	infd>>disk_num;
+	infd>>width;
+	infd>>a_disk_num;
+
+	vector<disk> disk_vec;
+	//input
+	for(int i=0; i<a_disk_num; i++){
+		int pot;
+		string disk_cont("");
+		infd>>pot;
+		infd>>disk_cont;
+		disk temp_disk(pot,disk_cont);
+		disk_vec.push_back(temp_disk);
+	}
+
+	// for(int i=0;i<disk_vec.size();i++){
+	// 	cout<<disk_vec[i].pot<<endl;
+	// 	for(int j=0; j<disk_vec[i].content.size(); j++){
+	// 		cout<<disk_vec[i].content[j]<<endl;
+	// 	}
+	// 	cout<<endl;
+	// }
+
+
+	//output
+	int se_num;
+	infd>>se_num;
+	for(int i=0; i<se_num; i++){
+		int disk_pot_out;
+		infd>>disk_pot_out;
+		// TODO: calculate
+		int disk_cal_num;
+		int cont_cal_num;
+		disk_cal_num = (disk_pot_out/width)%disk_num;
+		int line = (disk_pot_out/width/(disk_num-1));
+		line += disk_cal_num;
+		int p_num = line/disk_num;
+		// if(line < (disk_num-1-disk_cal_num)) p_num-=1;
+		int normal_num = (disk_pot_out/width/disk_num);
+		cont_cal_num = (p_num+normal_num)*width + disk_pot_out%width;
+		// cont_cal_num-=1;
+
+		int find=0;
+		for(int j=0; j<disk_vec.size(); j++){
+			if(disk_vec[j].pot == disk_cal_num){
+				//search for the block
+				// cout<<disk_cal_num<<endl;
+				// cout<<p_num<<endl;
+				// cout<<normal_num<<endl;
+				// cout<<cont_cal_num<<endl;
+				cout<<disk_vec[j].content[cont_cal_num]<<endl;
+				find=1;
+			}
+		}
+		if(!find){//XOR for the result
+			// cout<<disk_cal_num<<endl;
+			// cout<<p_num<<endl;
+			// cout<<normal_num<<endl;
+			// cout<<cont_cal_num<<endl;
+				
+			// cout<<"XOR"<<endl;
+			string temp_result(disk_vec[0].content[cont_cal_num]);
+			// cout<<temp_result<<endl;
+			for(int j=1; j<disk_vec.size(); j++){
+				// cout<<disk_vec[j].content[cont_cal_num]<<endl;
+				temp_result = myXOR(temp_result, disk_vec[j].content[cont_cal_num]);
+			}
+			cout<<temp_result<<endl;
+		}
+	}
+
+	return 0;
+}
