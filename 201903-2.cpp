@@ -7,7 +7,7 @@ using namespace std;
 int main()
 {
 	ifstream infd;
-	infd.open("2-input", ios::in);
+	infd.open("201903-2-input", ios::in);
 
 	int n;
 	infd>>n;

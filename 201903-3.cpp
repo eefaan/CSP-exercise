@@ -84,80 +84,65 @@ string myXOR(string origin_hex, string merge_hex)
 
 int main(void)
 {
-	ifstream infd;
-	infd.open("3-input", ios::in);
+	// ifstream cin;
+	// cin.open("201903-3-input", ios::in);
 
 	int disk_num;
 	int width;
 	int a_disk_num;
-	infd>>disk_num;
-	infd>>width;
-	infd>>a_disk_num;
+	cin>>disk_num;
+	cin>>width;
+	cin>>a_disk_num;
 
-	vector<disk> disk_vec;
+	vector<disk*> disk_vec;
 	//input
 	for(int i=0; i<a_disk_num; i++){
 		int pot;
 		string disk_cont("");
-		infd>>pot;
-		infd>>disk_cont;
-		disk temp_disk(pot,disk_cont);
-		disk_vec.push_back(temp_disk);
+		cin>>pot;
+		cin>>disk_cont;
+		disk *newdisk = new disk(pot,disk_cont);
+		disk_vec.push_back(newdisk);
 	}
-
-	// for(int i=0;i<disk_vec.size();i++){
-	// 	cout<<disk_vec[i].pot<<endl;
-	// 	for(int j=0; j<disk_vec[i].content.size(); j++){
-	// 		cout<<disk_vec[i].content[j]<<endl;
-	// 	}
-	// 	cout<<endl;
-	// }
-
 
 	//output
 	int se_num;
-	infd>>se_num;
+	cin>>se_num;
 	for(int i=0; i<se_num; i++){
+		
 		int disk_pot_out;
-		infd>>disk_pot_out;
-		// TODO: calculate
+		cin>>disk_pot_out;
+
+		// NOTE: calculate
 		int disk_cal_num;
 		int cont_cal_num;
 		disk_cal_num = (disk_pot_out/width)%disk_num;
-		int line = (disk_pot_out/width/(disk_num-1));
-		line += disk_cal_num;
-		int p_num = line/disk_num;
-		// if(line < (disk_num-1-disk_cal_num)) p_num-=1;
-		int normal_num = (disk_pot_out/width/disk_num);
-		cont_cal_num = (p_num+normal_num)*width + disk_pot_out%width;
-		// cont_cal_num-=1;
+		cont_cal_num = disk_pot_out/width/(disk_num-1)*width + disk_pot_out%width;
 
-		int find=0;
-		for(int j=0; j<disk_vec.size(); j++){
-			if(disk_vec[j].pot == disk_cal_num){
-				//search for the block
-				// cout<<disk_cal_num<<endl;
-				// cout<<p_num<<endl;
-				// cout<<normal_num<<endl;
-				// cout<<cont_cal_num<<endl;
-				cout<<disk_vec[j].content[cont_cal_num]<<endl;
-				find=1;
-			}
+		if(cont_cal_num>=disk_vec[0]->content.size()){// out of range
+			cout<<'-'<<endl;
 		}
-		if(!find){//XOR for the result
-			// cout<<disk_cal_num<<endl;
-			// cout<<p_num<<endl;
-			// cout<<normal_num<<endl;
-			// cout<<cont_cal_num<<endl;
-				
-			// cout<<"XOR"<<endl;
-			string temp_result(disk_vec[0].content[cont_cal_num]);
-			// cout<<temp_result<<endl;
-			for(int j=1; j<disk_vec.size(); j++){
-				// cout<<disk_vec[j].content[cont_cal_num]<<endl;
-				temp_result = myXOR(temp_result, disk_vec[j].content[cont_cal_num]);
+		else{
+			int find=0;
+			for(int j=0; j<disk_vec.size(); j++){// search
+				if(disk_vec[j]->pot == disk_cal_num){
+					cout<<disk_vec[j]->content[cont_cal_num]<<endl;
+					find=1;
+					break;
+				}
 			}
-			cout<<temp_result<<endl;
+			if(!find){//XOR for the result
+				if(disk_vec.size()==disk_num-1){
+					string temp_result(disk_vec[0]->content[cont_cal_num]);
+					for(int j=1; j<disk_vec.size(); j++){
+						temp_result = myXOR(temp_result, disk_vec[j]->content[cont_cal_num]);
+					}
+					cout<<temp_result<<endl;
+				}
+				else{// cannot be fixed
+					cout<<'-'<<endl;
+				}
+			}
 		}
 	}
 
