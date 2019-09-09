@@ -31,15 +31,21 @@ int main()
 		mymin = myarray[0];
 	}
 
-	//middle
+	//middle & output
+	cout<<mymax<<' ';
 	if(n%2 == 1){
 		mymiddle = myarray[n/2];
+		printf("%.0f", mymiddle);
 	}
 	else{
 		mymiddle = (myarray[n/2] + myarray[n/2 - 1]) / 2.;
+		if(((myarray[n/2] ^ myarray[n/2 - 1]) & 1) != 0){
+			printf("%.1f", mymiddle);
+		}
+		else printf("%.0f", mymiddle);
 	}
+	cout<<' '<<mymin;
 
-	cout<<mymax<<' '<<mymiddle<<' '<<mymin;
 	return 0;
 }
 
