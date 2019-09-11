@@ -49,6 +49,21 @@ vector<string> split(string str, string pattern){
 	return result;
 }
 
+
+string s("R1 S1");
+for(int j=0,k;j<s.size();j=k+1){//按空格键分割字符串，并用整数表示指令
+    k=s.find(' ',j);
+    if(k==string::npos)
+        k=s.size();
+    if(s[j]=='S')
+        process.back().first.push(ni*10000+stoi(s.substr(j+1,k-j-1)));
+    else
+        process.back().first.push(-(stoi(s.substr(j+1,k-j-1))*10000+ni));
+}
+
+
+
+
 /** transfer **/
 00(string) to int
 int to string
