@@ -9,7 +9,6 @@
 在里面加入-std=c++11就可以了
 
 /** 0'. sublime with c++11 **/
-/***
 As stated in the comments, it's your build system that you need to alter. 
 I ST3 it's a bit trickier to modify the default packages. 
 There are plugins to do this, but I have yet to use them. 
@@ -17,6 +16,7 @@ Here is a plugin free way.
 
 First, you will need a new .sublime-build. 
 I think this one should work.
+/***
 
 {
     "cmd": ["g++", "-std=c++11", "-o", "${file_path}/${file_base_name}", "${file}"],
@@ -36,6 +36,8 @@ I think this one should work.
         }
     ]
 }
+
+***/
 Then, you will need to navigate to where default packages for ST3 are stored. 
 It seems you are using Windows. 
 The location of the .sublime-packages is probably something like 
@@ -50,6 +52,8 @@ Re-zip the file and rename it back to C++.sublime-package and place it back
 into the folder you got it from.
 
 PS:
+/***
+
 {
     "cmd": ["g++", "${file}", "-std=c++11", "-stdlib=libc++", "-o", "${file_path}/${file_base_name}"],
     "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
@@ -64,6 +68,7 @@ PS:
         }
     ]
 }
+
 ***/
 
 /** 1. cout/printf格式化输出 **/
@@ -223,14 +228,13 @@ transform(strTest.begin(), strTest.end(), strTest.begin(), toupper);
 /** 7. transfer **/
 00(string s) to int: stoi(s)
 int to string: to_string(i)
-hex to dec (bin)
+hex/oct/bin(string s) to dec: stoi(s, 0, base)
+dec to other base: ?
 
-
-
+/** 8. params & returns **/
 /** some question: 传入参数-形参引用-实参引用, 返回参数-返回引用-引用返回值, 效率对比简单复制? **/
 
-
-/** date **/
+/** 9. date **/
 基姆拉尔森计算公式
 W = (d + 2 * m + 3 * (m + 1) / 5 + y + y / 4 - y / 100 + y / 400) mod 7
 
@@ -254,19 +258,18 @@ w=y+[y/4]+[c/4]-2c+[26(m+1)/10]+d-1
 w=y+[y/4]+[c/4]-2c+[26(m+1)/10]+d-1
  =13+[13/4]+[20/4]-2*20+[26*(3+1)/10]+7-1
  =-3 (除以7余4，注意对负数的取模运算！)
-————————————————
-版权声明：本文为CSDN博主「BibleXu」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/bible521125/article/details/50418436
 
-
-#include<numeric>       //iota头文件
+/** 10. iota initial vector/array **/
+#include<numeric>
 vector<int> v(10);
-    iota(v.begin(),v.end(),1);
-    vector<int>::iterator it = v.begin();
-    while(it != v.end())
-    {
-        cout<<*it++<<" ";
-    }
-————————————————
-版权声明：本文为CSDN博主「lixiaogang_theanswer」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/lixiaogang_theanswer/article/details/72588105
+iota(v.begin(),v.end(),1);
+vector<int>::iterator it = v.begin();
+while(it != v.end())
+{
+    cout<<*it++<<" ";
+}
+
+/** 11. STL operations **/
+"vector"
+s
+
