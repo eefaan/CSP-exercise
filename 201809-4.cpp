@@ -55,9 +55,8 @@ void spfa(int s,int n)
     dis[s]=0;
     for(int i=1;i<=n;i++)
     {
-        cout<<dis[i]-dis[i-1]<<" ";
+        cout<<dis[i]-dis[i-1]<<(i==n?'\n':' ');
     }
-    cout<<endl;
 }
  
 int main()
